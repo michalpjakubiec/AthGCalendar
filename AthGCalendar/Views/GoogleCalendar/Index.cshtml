@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<br />
+<h1>Google Calendar Integration Demo</h1>
+<br />
+<h3>@ViewBag.Message</h3>
+<br />
+@using (Html.BeginForm("SyncToGoogleCalendar", "GoogleCalendar"))
+{
+    <input class="button" id="submit" type="submit" value="Sync to Google Calendar" />
+}
