@@ -62,7 +62,7 @@ namespace AthGCalendar.Logic
             var result = new CalendarService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = authResult.Credential,
-                ApplicationName = "Google Calendar Integration Test"
+                ApplicationName = "AthGCalendar Test"
             });
             return result;
         }
@@ -78,8 +78,8 @@ namespace AthGCalendar.Logic
         private static Event GetCalendarEvent()
         {
             var result = new Event();
-            result.Summary = "Test Calendar Event Summary";
-            result.Description = "Test Calendar Event Description";
+            result.Summary = "Test Event Title";
+            result.Description = "Test Event Description";
             result.Sequence = 1;
             var eventDate = new EventDateTime();
             eventDate.DateTime = DateTime.UtcNow;
