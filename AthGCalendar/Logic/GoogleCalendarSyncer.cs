@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using AthGCalendar.Models;
 
 namespace AthGCalendar.Logic
 {
@@ -28,9 +29,26 @@ namespace AthGCalendar.Logic
 
                 var service = InitializeService(authResult);
 
+                return true;
+            }
+            catch (Exception ex)
+            {
+                GoogleOauthTokenService.OauthToken = null;
+                return false;
+            }
+        }
+
+        public static bool AddToGoogleCalendar(Controller controller, GoogleEventInfo info)
+        {
+            try
+            {
+                var authResult = GetAuthResult(controller);
+
+                var service = InitializeService(authResult);
+
                 var calendarId = GetMainCalendarId(service);
 
-                var calendarEvent = GetCalendarEvent();
+                var calendarEvent = GetCalendarEvent(info);
 
                 SyncCalendarEventToCalendar(service, calendarEvent, calendarId);
                 return true;
@@ -85,6 +103,21 @@ namespace AthGCalendar.Logic
             eventDate.DateTime = DateTime.UtcNow;
             result.Start = eventDate;
             result.End = eventDate;
+            return result;
+        }
+
+        private static Event GetCalendarEvent(GoogleEventInfo info)
+        {
+            var result = new Event();
+            result.Summary = info.Title;
+            result.Description = info.Description;
+            result.Sequence = 1;
+            var eventDateStart = new EventDateTime();
+            eventDateStart.DateTime = info.StartDate + info.StartTime ;
+            result.Start = eventDateStart;
+            var eventDateEnd = new EventDateTime();
+            eventDateEnd.DateTime = info.EndDate + info.EndTime;
+            result.End = eventDateEnd;
             return result;
         }
 
