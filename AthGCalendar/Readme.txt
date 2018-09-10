@@ -1,0 +1,1 @@
+Wyświetlanie wydarzeń na dziś z kalendarza Google / useCase, wyszukiwanie po nazwie, opisie w minionych eventach (np. kiedy był fryzjer), wyświetlanie powiadomień o przeglądarce, + opcjonalnie edycja, jakieś dodatki 
