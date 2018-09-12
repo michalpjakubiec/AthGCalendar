@@ -1,14 +1,13 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+    <br />
+    <h1>AthGCalendar</h1>
+    <br />
+    <h3>@ViewBag.Message</h3>
+    <br />
+    @using (Html.BeginForm("SyncToGoogleCalendar", "GoogleCalendar"))
+    {
 
-<br />
-<h1>AthGCalendar</h1>
-<br />
-<h3>@ViewBag.Message</h3>
-<br />
-@using (Html.BeginForm("SyncToGoogleCalendar", "GoogleCalendar"))
-{
-
-    <input class="btn btn-danger" id="submit" type="submit" value="Sync to Google Calendar" />
-}
+        <input class="btn btn-danger" id="submit" type="submit" value="Sync to Google Calendar" />
+    }

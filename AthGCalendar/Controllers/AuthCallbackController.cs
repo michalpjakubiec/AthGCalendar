@@ -48,7 +48,9 @@ namespace GoogleCalendarReader.Controllers
             var success = GoogleCalendarSyncer.SyncToGoogleCalendar(this);
             if (!success)
             {
-                return Json("Token was revoked. Try again.");
+                //return RedirectToAction("_SyncToGoogleCalendarError");
+
+                //return Json("Token was revoked. Try again.");
             }
 
             return Redirect(Url.Content("~/"));

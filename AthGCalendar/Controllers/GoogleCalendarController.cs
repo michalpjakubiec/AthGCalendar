@@ -10,6 +10,11 @@ namespace AthGCalendar.Controllers
 {
     public class GoogleCalendarController : Controller
     {
+        public ActionResult _SyncToGoogleCalendarError()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult SyncToGoogleCalendar()
         {
@@ -23,11 +28,15 @@ namespace AthGCalendar.Controllers
                 var success = GoogleCalendarSyncer.SyncToGoogleCalendar(this);
                 if (!success)
                 {
-                    return Json("Token was revoked. Try again.");
+                    var redirectUri = GoogleCalendarSyncer.GetOauthTokenUri(this);
+                    return Redirect(redirectUri);
+
+                    //return Json("Token was revoked. Try again.");
+                    //return RedirectToAction("_SyncToGoogleCalendarError");
                 }
             }
             //return Redirect("~/");
-            return RedirectToAction("AddEvent");
+            return RedirectToAction("GetEvents");
         }
 
         public ActionResult Index()
@@ -53,7 +62,8 @@ namespace AthGCalendar.Controllers
                 var success = GoogleCalendarSyncer.AddToGoogleCalendar(this, info);
                 if (!success)
                 {
-                    return Json("Token was revoked. Try again.");
+                    return RedirectToAction("_SyncToGoogleCalendarError");
+                    //return Json("Token was revoked. Try again.");
                 }
             }
             return RedirectToAction("GetEvents");

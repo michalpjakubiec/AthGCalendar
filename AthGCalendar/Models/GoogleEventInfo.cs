@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Foolproof;
 
 namespace AthGCalendar.Models
 {
@@ -14,11 +15,13 @@ namespace AthGCalendar.Models
         [Display(Name = "Date from")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-mm-yyyy}")]
+        [LessThanOrEqualTo("EndDate", ErrorMessage = "Must be more than Minimum Cost")]
         public DateTime StartDate { get; set; }
 
         [Display(Name = "Date to")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-mm-yyyy}")]
+        [GreaterThanOrEqualTo("StartDate", ErrorMessage = "Must be more than Minimum Cost")]
         public DateTime EndDate { get; set; }
 
         [Display(Name = "Time from")]
