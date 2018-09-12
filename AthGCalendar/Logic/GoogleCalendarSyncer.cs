@@ -9,6 +9,7 @@ using System.Threading;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using AthGCalendar.Models;
+using System.Collections.Generic;
 
 namespace AthGCalendar.Logic
 {
@@ -93,17 +94,14 @@ namespace AthGCalendar.Logic
             return result;
         }
 
-        private static Event GetCalendarEvent()
+        public static IEnumerable<Event> GetEvents(Controller controller)
         {
-            var result = new Event();
-            result.Summary = "Test Event Title";
-            result.Description = "Test Event Description";
-            result.Sequence = 1;
-            var eventDate = new EventDateTime();
-            eventDate.DateTime = DateTime.UtcNow;
-            result.Start = eventDate;
-            result.End = eventDate;
-            return result;
+            var authResult = GetAuthResult(controller);
+            var service = InitializeService(authResult);
+            var calendarId = GetMainCalendarId(service);
+            var events = service.Events.List(calendarId).Execute().Items;
+
+            return events;
         }
 
         private static Event GetCalendarEvent(GoogleEventInfo info)
@@ -113,7 +111,7 @@ namespace AthGCalendar.Logic
             result.Description = info.Description;
             result.Sequence = 1;
             var eventDateStart = new EventDateTime();
-            eventDateStart.DateTime = info.StartDate + info.StartTime ;
+            eventDateStart.DateTime = info.StartDate + info.StartTime;
             result.Start = eventDateStart;
             var eventDateEnd = new EventDateTime();
             eventDateEnd.DateTime = info.EndDate + info.EndTime;

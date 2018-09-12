@@ -1,7 +1,10 @@
 ﻿using AthGCalendar.Logic;
 using AthGCalendar.Models;
 using AthGCalendar.Services;
+using Google.Apis.Calendar.v3.Data;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace AthGCalendar.Controllers
 {
@@ -53,7 +56,23 @@ namespace AthGCalendar.Controllers
                     return Json("Token was revoked. Try again.");
                 }
             }
-            return RedirectToAction("AddEvent");
+            return RedirectToAction("GetEvents");
+        }
+
+        public ActionResult GetEvents()
+        {
+            var events = GoogleCalendarSyncer.GetEvents(this);
+            //return Json(events, JsonRequestBehavior.AllowGet);
+            return View(events);
+        }
+
+        public JsonResult GetNextEvent()
+        {
+            var events = GoogleCalendarSyncer.GetEvents(this);
+            var nextEvent = events.Where(x => x.Start.DateTime.HasValue)
+                .Select(x => new { start = x.Start.DateTimeRaw, title = x.Summary })
+                .OrderBy(x => x.start).FirstOrDefault();
+            return Json(nextEvent, JsonRequestBehavior.AllowGet);
         }
     }
 }
