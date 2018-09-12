@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Google.Apis.Calendar.v3.Data.Event>
 
 @{
-    ViewBag.Title = "Events List";
+    ViewBag.Title = "Current events List";
 }
 
-<h2>Events List</h2>
+<h2>Current events List</h2>
 
 <table class="table">
     <tr>
@@ -44,5 +44,5 @@
 </table>
 
 <div>
-    @Html.ActionLink("Add event", "AddEvent")
+    <button type="button" class="btn btn-primary">@Html.ActionLink("Add new event", "AddEvent")</button>
 </div>
